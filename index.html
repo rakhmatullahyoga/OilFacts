@@ -1,19 +1,32 @@
 <!doctype html >
-<html>
+<html style = "height: 100%">
     <head>
         <title>Petroleum: "Production vs. Price"</title>
         <link rel="stylesheet" type="text/css" href="css/razorflow.min.css">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/razorflow.min.js"></script>
-        <script type="text/javascript" src="js/razorflow.devtools.min.js"></script>
-        <script type="text/javascript" src="js/dashboard_app.js"></script>
     </head>  
-    <body>
-        <header>
-            <h1>Global Oil Production vs. Global Oil Price</h1>
-        </header>
-        <!-- Don't delete this div. This is where RazorFlow will get rendered. -->
-        <div id="dashboard_target" style="position:relative;" class="rf"></div>
+    <body style = "height: 100%">
+        <div style="width:100%;height:100%">
+              <div style="background-color:#b5dcb3; width:100%; height:15%">
+                  <center><h1>Global Oil Production vs. Global Oil Price</h1></center>
+              </div>
+              <!--div id="dashboard_target" style="position:relative;" class="rf"></div-->
+
+              <div style="height:70%">
+                  <div id="map" style="background-color:#aaa; height:100%;width:60%;float:left;">
+                      
+                  </div>
+                  <div id="charts" style="height:100%;width:40%;float:right;">
+                    <div id="price" style="background-color:#eee;height:50%"></div>
+                    <div id="production" style="height:50%"></div>
+                  </div>
+              </div>
+
+              <div id="panel" style="background-color:#b5dcb3;clear:both;height:15%">
+              </div>
+        </div>
     </body>
 </html>
+
+
