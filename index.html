@@ -1,31 +1,94 @@
 <!doctype html >
-<html style = "height: 100%">
+<html>
     <head>
         <title>Petroleum: "Production vs. Price"</title>
         <link rel="stylesheet" type="text/css" href="css/razorflow.min.css">
+        <link rel="stylesheet" type="text/css" href="css/oilfacts.css">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <script type="text/javascript" src="js/jquery.min.js"></script>
     </head>  
-    <body style = "height: 100%">
-        <div style="width:100%;height:100%">
-              <div style="background-color:#b5dcb3; width:100%; height:15%">
+    <body>
+        <div class="container">
+              <div class="title">
                   <center><h1>Global Oil Production vs. Global Oil Price</h1></center>
               </div>
-              <!--div id="dashboard_target" style="position:relative;" class="rf"></div-->
-
-              <div style="height:70%">
-                  <div id="map" style="background-color:#aaa; height:100%;width:60%;float:left;">
-                      
-                  </div>
-                  <div id="charts" style="height:100%;width:40%;float:right;">
-                    <div id="price" style="background-color:#eee;height:50%"></div>
-                    <div id="production" style="height:50%"></div>
+              <div class="charts">
+                  <div id="map"></div>
+                  <div id="charts">
+                    <div id="price"></div>
+                    <div id="production"></div>
                   </div>
               </div>
-
-              <div id="panel" style="background-color:#b5dcb3;clear:both;height:15%">
+              <div id="panel">
               </div>
         </div>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/d3.v3.min.js"></script>
+        <script type="text/javascript" src="js/d3.min.js"></script>
+        <script type="text/javascript">
+        var margin = {top: 20, right: 20, bottom: 30, left: 50},
+            width = 600 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        var formatDate = d3.time.format("%d-%b-%y");
+
+        var x = d3.time.scale()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        var line = d3.svg.line()
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.value); });
+
+        var svg = d3.select("#price").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        d3.csv("DCOILWTICO.csv", type, function(error, data) {
+          if (error) throw error;
+
+          x.domain(d3.extent(data, function(d) { return d.date; }));
+          y.domain(d3.extent(data, function(d) { return d.value; }));
+
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+            .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Price ($)");
+
+          svg.append("path")
+              .datum(data)
+              .attr("class", "line")
+              .attr("d", line);
+        });
+
+        function type(d) {
+          d.date = +d.date;
+          d.value = +d.value;
+          return d;
+        }
+
+        </script>
     </body>
 </html>
 
