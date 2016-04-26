@@ -58,7 +58,7 @@
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // parsing data dari csv
-        d3.csv("DCOILWTICO.csv", type, function(error, data) {
+        d3.csv("./data/DCOILWTICO.csv", type, function(error, data) {
           if (error) throw error;
 
           // domain skala grafik
