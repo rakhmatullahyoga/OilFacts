@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+ 
+<!-- Set a style for our worldshape-data -->
+  <style>
+	.background {
+		fill: none;
+		pointer-events: all;
+	}
+
+	#countries {
+		fill: #aaa;
+	}
+
+	#countries .active {
+		fill: blue;
+	}
+
+	#country-borders {
+		fill: none;
+		stroke: #fff;
+		stroke-width: 0.5px;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+		pointer-events: none;
+	}
+	
+  </style>
+<body>
+
+<div id="canvas-svg"></div>
+ 
+  <!-- implementation of the hosted D3- and TopoJson js-libraries -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+   
+  <!-- map creation --> 
+  <script>
+  // canvas resolution
+  var width = 1000,
+      height = 600,
+	  centered;
+ 
+  // projection-settings for mercator    
+  var projection = d3.geo.mercator()
+      // where to center the map in degrees
+      .center([0, 50 ])
+	  .scale((width + 1) / 2 / Math.PI)
+      .translate([width / 2, height / 2])
+      .precision(.1);
+ 
+  // defines "svg" as data type and "make canvas" command
+  var svg = d3.select("#canvas-svg").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+	  
+  // punyanya clicked
+	svg.append("rect")
+		.attr("class", "background")
+		.attr("width", width)
+		.attr("height", height)
+		.on("click", clicked);
+ 
+  // defines "path" as return of geographic features
+  var path = d3.geo.path()
+      .projection(projection);
+ 
+  // group the svg layers 
+  var g = svg.append("g");
+ 
+  // load data and display the map on the canvas with country geometries
+  d3.json("world-topo-min.json", function(error, topology) {
+		g.append("g")
+			.attr("id", "countries")
+		.selectAll("path")
+			.data(topojson.feature(topology, topology.objects.countries).features)
+		.enter().append("path")
+			.attr("d", path)
+			.on("click", clicked);
+
+		g.append("path")
+			.datum(topojson.mesh(topology, topology.objects.countries, 		function(a, b) { return a !== b; }))
+			.attr("id", "country-borders")
+			.attr("d", path);
+	  
+	  //adasdsd
+	  /*g.selectAll("path")
+        .data(topojson.object(topology, topology.objects.countries)
+            .geometries)
+      .enter()
+        .append("path")
+        .attr("d", path)*/
+  });
+  
+function clicked(d) {
+	var x, y, k;
+
+	if (d && centered !== d) {
+		var centroid = path.centroid(d);
+		x = centroid[0];
+		y = centroid[1];
+		k = 4;
+		centered = d;
+	} else {
+		x = width / 2;
+		y = height / 2;
+		k = 1;
+		centered = null;
+	}
+
+	g.selectAll("path")
+	  .classed("active", centered && function(d) { return d === centered; });
+
+	g.transition()
+	  .duration(750)
+	  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+	  .style("stroke-width", 0.5 / k + "px");
+}
+ 
+  // zoom and pan functionality
+  /*var zoom = d3.behavior.zoom()
+      .on("zoom",function() {
+          g.attr("transform","translate("+ 
+              d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+          g.selectAll("path")  
+              .attr("d", path.projection(projection)); 
+    });
+ 
+  svg.call(zoom)*/
+ 
+  </script>
+</body>
+</html>
