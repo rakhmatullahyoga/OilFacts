@@ -1,6 +1,6 @@
 // ukuran chart
 var margin = {top: 20, right: 20, bottom: 20, left: 50},
-    width = 520 - margin.left - margin.right,
+    width = 300 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 // bikin skala x-axis dan y-axis
