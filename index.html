@@ -2,7 +2,6 @@
 <html>
     <head>
         <title>Petroleum: "Production vs. Price"</title>
-        <link rel="stylesheet" type="text/css" href="css/razorflow.min.css">
         <link rel="stylesheet" type="text/css" href="css/oilfacts.css">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     </head>  
@@ -11,11 +10,13 @@
               <div class="title">
                   <center><h1>Global Oil Production vs. Global Oil Price</h1></center>
               </div>
-              <div class="charts">
-                  <div id="map"></div>
+              <div class="content">
+                  <div id="map">
+                    <div id="tooltip-container"></div>
+                  </div>
                   <div id="charts">
-                    <div id="price"></div>
-                    <div id="production"></div>
+                    <div id="price"><center>Grafik Harga Minyak Dunia</center></div>
+                    <div id="production"><center>Grafik Produksi Minyak</center></div>
                   </div>
               </div>
               <div id="panel">
@@ -24,71 +25,10 @@
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/d3.v3.min.js"></script>
         <script type="text/javascript" src="js/d3.min.js"></script>
-        <script type="text/javascript">
-        var margin = {top: 20, right: 20, bottom: 30, left: 50},
-            width = 600 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
-
-        var formatDate = d3.time.format("%d-%b-%y");
-
-        var x = d3.time.scale()
-            .range([0, width]);
-
-        var y = d3.scale.linear()
-            .range([height, 0]);
-
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left");
-
-        var line = d3.svg.line()
-            .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.value); });
-
-        var svg = d3.select("#price").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        d3.csv("DCOILWTICO.csv", type, function(error, data) {
-          if (error) throw error;
-
-          x.domain(d3.extent(data, function(d) { return d.date; }));
-          y.domain(d3.extent(data, function(d) { return d.value; }));
-
-          svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-
-          svg.append("g")
-              .attr("class", "y axis")
-              .call(yAxis)
-            .append("text")
-              .attr("transform", "rotate(-90)")
-              .attr("y", 6)
-              .attr("dy", ".71em")
-              .style("text-anchor", "end")
-              .text("Price ($)");
-
-          svg.append("path")
-              .datum(data)
-              .attr("class", "line")
-              .attr("d", line);
-        });
-
-        function type(d) {
-          d.date = +d.date;
-          d.value = +d.value;
-          return d;
-        }
-
-        </script>
+        <script type="text/javascript" src="js/topojson.min.js"></script>
+        <script type="text/javascript" src="js/oilfacts-price.js"></script>
+        <script type="text/javascript" src="js/oilfacts-production.js"></script>
+        <script type="text/javascript" src="js/oilfacts-map.js"></script>
     </body>
 </html>
 
