@@ -40,7 +40,7 @@ body {
 	height:50px;
 
 }
-.charts {
+.content {
 	width : 1366px;
 }
 
@@ -85,12 +85,13 @@ body {
 	height:555px;
 	width:529px;
 	float:right;
+	position:relative;
 }
 #price {
-	height:50%;
+	height:275px;
 }
 #production {
-	height:50%;
+	height:275px;
 }
 #panel {
 	float:top;
