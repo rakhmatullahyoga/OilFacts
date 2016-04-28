@@ -1,9 +1,3 @@
-function type(d) {
-  d.date = +d.date;
-  d.value = +d.value;
-  return d;
-}
-
 // parsing data dari csv
 d3.csv("./data/DCOILWTICO.csv", type, function(error, data) {
   if (error) throw error;
@@ -11,7 +5,7 @@ d3.csv("./data/DCOILWTICO.csv", type, function(error, data) {
   // ukuran chart
   var margin = {top: 20, right: 20, bottom: 20, left: 50},
       width = 520 - margin.left - margin.right,
-      height = 230 - margin.top - margin.bottom;
+      height = 220 - margin.top - margin.bottom;
 
   // bikin skala x-axis dan y-axis
   var x = d3.time.scale()
@@ -34,7 +28,7 @@ d3.csv("./data/DCOILWTICO.csv", type, function(error, data) {
       .y(function(d) { return y(d.value); });
 
   // append svg ke komponen tertentu di html
-  var svg = d3.select("div#price").append("svg")
+  var svg = d3.select("div#production").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")

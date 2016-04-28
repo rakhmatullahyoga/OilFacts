@@ -1,8 +1,8 @@
 d3.csv("./data/population.csv", function(err, data) {
   var config = {"data0":"Country (or dependent territory)","data1":"Population","label0":"label 0","label1":"label 1","color0":"#c99f68","color1":"#985702","width":800,"height":400}
   
-  var width = 1000,
-      height = 640,
+  var width = 837,
+      height = 555,
      centered;
   
   var COLOR_COUNTS = 9;
