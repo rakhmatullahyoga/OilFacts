@@ -6,6 +6,12 @@ body {
 	height: 100%;
 	width:100%;
 	position: relative;
+	margin:0;
+}
+h1 {
+	overflow:hidden;
+	margin:0;
+	color:#4682B4;
 }
 
 .land {
