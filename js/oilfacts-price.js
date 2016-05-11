@@ -64,7 +64,13 @@ d3.csv("./data/DCOILWTICO.csv", function(error, data) {
   // Add the Y Axis
   svg.append("g")
       .attr("class", "y axis")
-      .call(yAxis);
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Price ($)");
 
   // append the x line
   focus.append("line")
