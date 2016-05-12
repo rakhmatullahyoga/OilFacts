@@ -1,8 +1,8 @@
 d3.csv("./data/Total_Oil_Supply.csv", function(err, data) {
   var config = {"data0":"Country","data1":"2014","label0":"label 0","label1":"label 1","color0":"#d3af7f","color1":"#a55e00","width":800,"height":400}
   
-  var width = 837,
-      height = 555,
+  var width = 1100,
+      height = 700,
      centered;
   
   var COLOR_COUNTS = 9;
