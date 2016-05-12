@@ -161,9 +161,10 @@ a:focus {
 
 }
 
-.intro .intro-icon {
+.intro-icon {
     margin-right: auto;
     margin-left: auto;
+    margin-top: 70px;
     vertical-align: bottom;
 }
 
