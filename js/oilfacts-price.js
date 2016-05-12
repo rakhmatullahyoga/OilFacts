@@ -33,7 +33,7 @@ function loadGraph() {
 
   // append svg ke komponen tertentu di html
   var svg = d3.select("div#price").append("svg")
-      .attr("width", width + margin.left + margin.right + 80)
+      .attr("width", width + margin.left + margin.right + 68)
       .attr("height", height + margin.top + margin.bottom + 30)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -43,14 +43,17 @@ function loadGraph() {
   var focus = svg.append("g") 
       .style("display", "none");
 
-  var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+  // Parse the date / time
+  var parseDate = d3.time.format("%Y").parse,
+      formatDate = d3.time.format("%Y"),
+      bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
   // parsing data dari csv
   d3.csv("./data/DCOILWTICO.csv", function(error, data) {
     if (error) throw error;
 
     data.forEach(function(d) {
-        d.date = +d.date;
+        d.date = parseDate(d.date);
         d.value = +d.value;
     });
 
@@ -182,13 +185,13 @@ function loadGraph() {
           .attr("transform",
                 "translate(" + x(d.date) + "," +
                                y(d.value) + ")")
-          .text(d.date);
+          .text(formatDate(d.date));
 
       focus.select("text.y4")
           .attr("transform",
                 "translate(" + x(d.date) + "," +
                                y(d.value) + ")")
-          .text(d.date);
+          .text(formatDate(d.date));
 
       focus.select(".x")
           .attr("transform",
