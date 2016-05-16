@@ -1,53 +1,58 @@
+// ukuran chart
+var margin = {top: 30, right: 20, bottom: 20, left: 50},
+    width = 580 - margin.left - margin.right,
+    height = 240 - margin.top - margin.bottom;
+
+// bikin skala x-axis dan y-axis
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var y2 = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom").ticks(5);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left").ticks(5);
+
+var y2Axis = d3.svg.axis()
+    .scale(y2)
+    .orient("right").ticks(5);
+
+// bikin fungsi konversi data ke koordinat garis
+var priceline = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.value); });
+
+var productionline = d3.svg.line()
+    .x(function(d) { return x(d[0]) })
+    .y(function(d) { return y(d[1]); });
+
+// append svg ke komponen tertentu di html
+var svg = d3.select("div#price").append("svg")
+    .attr("width", width + margin.left + margin.right + 68)
+    .attr("height", height + margin.top + margin.bottom + 30)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var lineSvg = svg.append("g"); 
+
+var focus = svg.append("g") 
+    .style("display", "none");
+
+// Parse the date / time
+var parseDate = d3.time.format("%Y").parse,
+    formatDate = d3.time.format("%Y"),
+    bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+
 function loadGraph() {
-  // ukuran chart
-  var margin = {top: 30, right: 20, bottom: 20, left: 50},
-      width = 580 - margin.left - margin.right,
-      height = 240 - margin.top - margin.bottom;
-
-  // bikin skala x-axis dan y-axis
-  var x = d3.time.scale()
-      .range([0, width]);
-
-  var y = d3.scale.linear()
-      .range([height, 0]);
-
-  var y2 = d3.scale.linear()
-      .range([height, 0]);
-
-  var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient("bottom").ticks(5);
-
-  var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient("left").ticks(5);
-
-  var y2Axis = d3.svg.axis()
-      .scale(y2)
-      .orient("right").ticks(5);
-
-  // bikin fungsi konversi data ke koordinat garis
-  var valueline = d3.svg.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d.value); });
-
-  // append svg ke komponen tertentu di html
-  var svg = d3.select("div#price").append("svg")
-      .attr("width", width + margin.left + margin.right + 68)
-      .attr("height", height + margin.top + margin.bottom + 30)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  var lineSvg = svg.append("g"); 
-
-  var focus = svg.append("g") 
-      .style("display", "none");
-
-  // Parse the date / time
-  var parseDate = d3.time.format("%Y").parse,
-      formatDate = d3.time.format("%Y"),
-      bisectDate = d3.bisector(function(d) { return d.date; }).left;
-
   // parsing data dari csv
   d3.csv("./data/DCOILWTICO.csv", function(error, data) {
     if (error) throw error;
@@ -62,10 +67,10 @@ function loadGraph() {
     y.domain([0, 110]); // skala y-axis dari 0 sampe 110
     y2.domain([0,14000]);
 
-    // Add the valueline path.
+    // Add the priceline path.
     lineSvg.append("path")
         .attr("class", "line")
-        .attr("d", valueline(data));
+        .attr("d", priceline(data));
 
     // Add the X Axis
     svg.append("g")
@@ -83,18 +88,6 @@ function loadGraph() {
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text("Price ($/barrel)");
-
-    // Add the Y2 Axis
-    svg.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + width + ",0)")
-        .call(y2Axis)
-      .append("text")
-        .attr("transform", "translate(80,-30)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Production (barrel/day)");
 
     // append the x line
     focus.append("line")
@@ -206,4 +199,33 @@ function loadGraph() {
                      .attr("x2", width + width);
     }
   });
+
+  // d3.csv("./data/Total_Oil_Supply.csv", function(error, data) {
+  //   if (error) throw error;
+    
+  //   var obj = d3.map(data, function(d){
+  //     return d.Country;
+  //   });
+  //   obj.forEach(function(k,v){
+  //     this[k] = [v.1986, v.1987, v.1988, v.1989, v.1990, v.1991, v.1992, v.1993, v.1994, v.1995, v.1996, v.1997, v.1998, v.1999, v.2000, v.2001, v.2002, v.2003, v.2004, v.2005, v.2006, v.2007, v.2008, v.2009, v.2010, v.2011, v.2012, v.2013, v.2014];
+  //   });
+
+  //   y2.domain([0, d3.max(obj, function(d) { return d[1]; })]);
+
+  //   lineSvg.append("path")
+  //       .attr("class", "line")
+  //       .attr("d", productionline(obj));
+
+  //   // Add the Y2 Axis
+  //   svg.append("g")
+  //       .attr("class", "y axis")
+  //       .attr("transform", "translate(" + width + ",0)")
+  //       .call(y2Axis)
+  //     .append("text")
+  //       .attr("transform", "translate(80,-30)")
+  //       .attr("y", 6)
+  //       .attr("dy", ".71em")
+  //       .style("text-anchor", "end")
+  //       .text("Production (barrel/day)");
+  // });
 }

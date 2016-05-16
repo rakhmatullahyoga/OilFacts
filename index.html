@@ -12,12 +12,11 @@
 
     <title>OilFacts</title>
 
-    <link rel="stylesheet" type="text/css" href="css/oilfacts.css">
-
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
+    <link href="css/oilfacts.css" rel="stylesheet">
     <link href="css/grayscale.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
@@ -43,11 +42,9 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-
                 <a class="navbar-brand page-scroll" href="#page-top">
                     <span class="light">OilFacts</span>
                 </a>
-
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -99,8 +96,11 @@
             <div id="charts">
                 <div id="price"></div>
             </div>
-            <div class="panel-trends"></div>
-            <div class="panel-trends"></div>
+            <div id="support-panel">
+                <select id="countrySelect"></select>
+                <div id="countrySelect" class="panel-trends"></div>
+                <div id="legend" class="panel-trends"></div>
+            </div>
             <div class = "intro-icon">
                 <a href="#supplier" class="btn btn-circle page-scroll">
                     <i class="fa fa-angle-double-down animated"></i>
@@ -124,7 +124,6 @@
         </div>
     </section>
 
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
@@ -135,12 +134,10 @@
     <script src="js/jquery.easing.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="js/grayscale.js"></script>
-    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/grayscale.js"></script>
     <script type="text/javascript" src="js/d3.min.js"></script>
     <script type="text/javascript" src="js/topojson.min.js"></script>
     <script type="text/javascript" src="js/oilfacts-price.js"></script>
-    <!-- <script type="text/javascript" src="js/oilfacts-production.js"></script> -->
     <script type="text/javascript" src="js/oilfacts-map.js"></script>
 </body>
 
