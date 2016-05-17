@@ -2,7 +2,7 @@ function loadGraph() {
   // ukuran chart
   var margin = {top: 30, right: 20, bottom: 20, left: 50},
       width = 580 - margin.left - margin.right,
-      height = 240 - margin.top - margin.bottom;
+      height = 300 - margin.top - margin.bottom;
 
   // bikin skala x-axis dan y-axis
   var x = d3.time.scale()

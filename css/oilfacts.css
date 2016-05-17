@@ -93,7 +93,9 @@ body {
 #map svg{
 }
 #charts {
-	height:325px;
+	height:375px;
+	display:block;
+	overflow:auto;
 	width:100%;
 	vertical-align: middle;
 }
@@ -103,7 +105,7 @@ body {
 	left: 0;
 	right: 0;
 	padding-top: 15px;
-	margin-left: 350px;
+	margin-left: 200px;
 }
 #production {
 	height:275px;
@@ -127,7 +129,7 @@ body {
 }
 #support-panel {
 	float:right;
-	margin-right : 110px;
+	margin-right : 150px;
     width: 200px;
     height: auto;
     padding: 10px;
