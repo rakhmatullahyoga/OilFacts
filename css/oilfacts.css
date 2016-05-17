@@ -48,15 +48,23 @@ h1 {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #EFEFEF;
+  stroke-width: 2px;
   shape-rendering: crispEdges;
 }
-.x.axis path {
+.x.axis {
+	text-decoration-color: #EFEFEF;
+	stroke: #EFEFEF;
+}
+
+.y.axis {
+  text-decoration-color: #EFEFEF;
+  stroke: #EFEFEF;
 }
 
 .line {
   fill: none;
-  stroke: steelblue;
+  stroke: #0B67F3;
   stroke-width: 1.5px;
 }
 .svg-container {
@@ -75,7 +83,7 @@ h1 {
 }
 
 #map {
-	background-color:#aaacff;
+	
 	width:837px;
 	position: relative;
 }
@@ -83,7 +91,7 @@ h1 {
 #map svg{
 }
 #charts {
-	background-color:#98521a;
+	
 	height:300px;
 	width:100%;
 	vertical-align: middle;

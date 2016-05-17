@@ -64,6 +64,22 @@ a:focus {
     color: #1d9b6c;
 }
 
+#grad1{
+    background: black; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(black,#502304,black); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(black,#502304,black); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(black,#502304,black); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#502304,black); /* Standard syntax */
+}
+
+#grad2{
+    background: black; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(black, #9E4507); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(black, #9E4507); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(black, #9E4507); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(black, #9E4507); /* Standard syntax */
+}
+
 .light {
     font-weight: 400;
 }
@@ -160,21 +176,23 @@ a:focus {
     -o-background-size: cover;
 }
 
+
 .panel {
     margin-top: 50px;
     margin-right: 10px;
-    width :200px;
+    width :230px;
     height:450px;
     float:right;
-    background-color: #4c5d67;
+    background-color: #7E6650;
 }
 
 .legend {
     margin-top: 147px;
-    width :198px;
+    width :228px;
     height:300px;
     float: right;
     background-color: #777c7f;
+
 }
 
 .panel-trends {
@@ -183,14 +201,16 @@ a:focus {
     left:0px;
     width :200px;
     height:50px;
-    background-color: #4c5d67;
+    background-color: #7E6650;
+
 }
 
-.panel-legend {
-    float: right;
+.legend-trends {
+    right:0;
     width :200px;
     height:50px;
-    background-color: #4c5d67;
+    background-color: #7E6650;
+    background: url(../img/legend.png) no-repeat bottom center scroll;
 }
 
 .intro {
