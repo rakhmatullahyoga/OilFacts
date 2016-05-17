@@ -48,15 +48,23 @@ h1 {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #EFEFEF;
+  stroke-width: 2px;
   shape-rendering: crispEdges;
 }
-.x.axis path {
+.x.axis {
+	text-decoration-color: #EFEFEF;
+	stroke: #EFEFEF;
+}
+
+.y.axis {
+  text-decoration-color: #EFEFEF;
+  stroke: #EFEFEF;
 }
 
 .line {
   fill: none;
-  stroke: steelblue;
+  stroke: #0B67F3;
   stroke-width: 1.5px;
 }
 .svg-container {
@@ -75,7 +83,7 @@ h1 {
 }
 
 #map {
-	background-color:#aaacff;
+	
 	width:837px;
 	position: relative;
 }
@@ -83,17 +91,17 @@ h1 {
 #map svg{
 }
 #charts {
-	background-color:#98521a;
-	height:300px;
+	height:325px;
 	width:100%;
 	vertical-align: middle;
 }
 #price {
-	height:275px;
+	height:325px;
 	position: absolute;
 	left: 0;
 	right: 0;
 	padding-top: 15px;
+	margin-left: 350px;
 }
 #production {
 	height:275px;
@@ -116,14 +124,47 @@ h1 {
 	display: none;
 }
 #support-panel {
-	margin: auto;
-    width: 100%;
+	float:right;
+	margin-right : 110px;
+    width: 200px;
+    height: auto;
+    padding: 10px;
+}
+#annotation {
+	float:right;
+	margin-right : 0px;
+    width: 500px;
     height: auto;
     padding: 10px;
 }
 #countrySelect {
 	display: inline-block;
+	margin-left: 50px;
+	width: 200px;
+	text-decoration-color: black;
 }
+
 #legend {
 	display: inline-block;
+}
+
+.demo select {
+		border: 0 !important;  /*Removes border*/
+		-webkit-appearance: none;  /*Removes default chrome and safari style*/
+		-moz-appearance: none; /* Removes Default Firefox style*/
+        appearance:none;
+        background:url(../img/drop.png) no-repeat 90% center;
+        background-color:#7E6650; 
+		width: 200px; /*Width of select dropdown to give space for arrow image*/
+		text-indent: 0.01px; /* Removes default arrow from firefox*/
+		text-overflow: "";  /*Removes default arrow from firefox*/ /*My custom style for fonts*/
+		text-align: center;
+		color: #FFF;
+		border-radius: 2px;
+		padding: 5px;
+		box-shadow: inset 0 0 5px rgba(000,000,000, 0.5);
+	}
+
+#text-annotation{
+	text-align: left;
 }

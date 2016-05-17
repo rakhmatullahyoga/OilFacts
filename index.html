@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">OIL FACTS</h1>
-                        <p class="intro-text">A free, responsive, one page Bootstrap theme.<br>Created by Start Bootstrap.</p>
+                        <p class="intro-text">On this dashboard, you can obtain information<br>on amount of production and prices of world crude oil.<br>Additionally, you can find out the amount of production of each country.<br>Please, continue to the next page.</p>
                     </div>
                 </div>
             </div>
@@ -88,19 +88,31 @@
 
     <!-- Trend Section -->
     <section id="trends" class="content-section-2 text-center">
-        <div class="background-page">
+        <div id="grad1" class="background-page">
             <div class="title">
                 <center><h1>Oil Trends</h1></center>
                 <center><h3>Price vs Production</h3></center>
             </div>
             <div id="charts">
-                <div id="price"></div>
+                <div id="price">
+                    
+                    <div id="support-panel">
+                        <div id="text-annotation">Legend</div>
+                        <div id="legend" class="legend-trends"></div>
+                        <div id="text-annotation">Country</div>
+                        <div>
+                            <form class="demo">
+                                <select>
+                                    <option value="saab">Saab</option>
+                                    <option value="opel">Opel</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="support-panel">
-                <select id="countrySelect"></select>
-                <div id="countrySelect" class="panel-trends"></div>
-                <div id="legend" class="panel-trends"></div>
-            </div>
+
             <div class = "intro-icon">
                 <a href="#supplier" class="btn btn-circle page-scroll">
                     <i class="fa fa-angle-double-down animated"></i>
@@ -111,14 +123,14 @@
 
     <!-- World Production Section -->
     <section id="supplier" class="content-section-2">
-        <div class="background-page">
+        <div id="grad2" class="background-page">
             <div class="title">
                 <center><h1>Oil Supplier</h1></center>
             </div>
             <div id="map">
                 <div id="tooltip-container"></div>
                 <div class="panel">
-                    <div class="legend"></div>
+                   <div id="text-annotation">Legend</div>
                 </div>
             </div>
         </div>
