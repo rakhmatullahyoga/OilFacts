@@ -91,7 +91,6 @@ var MAP_YEAR = 2014;	// initilizied MAP_YEAR
 var countries;
 var country = "";
 var data1 = [];
-var datax = [];
 var world1 = [];
 var worldx = [];
 /** end of data global */
@@ -169,11 +168,8 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
 		return (+d[MAP_YEAR]) })]);
 		
 	d3.json("world-topo-min.json", function(error, world) {
-		// set variable
-		worldx = world;
 		
-		//countries = topojson.feature(world, world.objects.countries).features;
-		//country = g.selectAll(".country").data(countries);
+		// set to map
 		g.selectAll(".country")
 		   .data(topojson.feature(world, world.objects.countries).features)
 	   .enter().append("path")
@@ -198,7 +194,7 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
 				html += d.properties.name;
 				html += "</span>";
 				html += "<span class=\"tooltip_value\">";
-				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "");
+				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "N/A");
 				html += "";
 				html += "</span>";
 				html += "</div>";
@@ -240,75 +236,66 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
 /** Redraw */
 function redraw(nTahun){
 	
-	datax = data1;
-	
-	// get data by year
-	datax.forEach(function(d) {
+	// get data by year (nTahun)
+	data1.forEach(function(d) {
 		valueHash[d[MAP_COUNTRY]] = +d[nTahun];
 	});
 	
-	
 	// set colour
-	quantize.domain([d3.min(datax, function(d){
+	quantize.domain([d3.min(data1, function(d){
 		return (+d[nTahun]) }),
-    d3.max(datax, function(d){
+    d3.max(data1, function(d){
 		return (+d[nTahun]) })]);
 		
-	//d3.json("world-topo-min.json", function(error, worldx) {
-		g.selectAll(".country")
-		   .attr("d", path)
-		   .style("fill", function(d) {
-			   if (valueHash[d.properties.name]) {
-				   var c = quantize((valueHash[d.properties.name]));
-				   var color = colors[c].getColors();
-				   return "rgb(" + color.red + "," + color.green + "," + color.blue + ")";
-			   } else {
-					return "#ccc";
-			   }
-		   })
-		   .on("mousemove", function(d) {
-				var html = "";
-	  
-				html += "<div class=\"tooltip_kv\">";
-				html += "<span class=\"tooltip_key\">";
-				html += d.properties.name;
-				html += "</span>";
-				html += "<span class=\"tooltip_value\">";
-				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "");
-				html += "";
-				html += "</span>";
-				html += "</div>";
-				
-				$("#tooltip-container").html(html);
-				$(this).attr("fill-opacity", "0.8");
-				$("#tooltip-container").show();
-				
-				var coordinates = d3.mouse(this);
-				
-				var map_width = $('.choropleth')[0].getBoundingClientRect().width;
-				
-				if (d3.event.pageX < map_width / 2) {
-				  d3.select("#tooltip-container")
-					.style("top", (d3.event.layerY + 15) + "px")
-					.style("left", (d3.event.layerX + 15) + "px");
-				} else {
-				  var tooltip_width = $("#tooltip-container").width();
-				  d3.select("#tooltip-container")
-					.style("top", (d3.event.layerY + 15) + "px")
-					.style("left", (d3.event.layerX - tooltip_width - 30) + "px");
-				}
-			})
-			.on("mouseout", function() {
-                $(this).attr("fill-opacity", "1.0");
-                $("#tooltip-container").hide();
-            });
-		
-		g.append("path")
-         .datum(topojson.mesh(worldx, worldx.objects.countries, function(a, b) { return a !== b; }))
-         .attr("class", "boundary")
-         .attr("d", path);
+	// set to map
+	g.selectAll(".country")
+	   .attr("d", path)
+	   .style("fill", function(d) {
+		   if (valueHash[d.properties.name]) {
+			   var c = quantize((valueHash[d.properties.name]));
+			   var color = colors[c].getColors();
+			   return "rgb(" + color.red + "," + color.green + "," + color.blue + ")";
+		   } else {
+				return "#ccc";
+		   }
+	   })
+	   .on("mousemove", function(d) {
+			var html = "";
+  
+			html += "<div class=\"tooltip_kv\">";
+			html += "<span class=\"tooltip_key\">";
+			html += d.properties.name;
+			html += "</span>";
+			html += "<span class=\"tooltip_value\">";
+			html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "N/A");
+			html += "";
+			html += "</span>";
+			html += "</div>";
+			
+			$("#tooltip-container").html(html);
+			$(this).attr("fill-opacity", "0.8");
+			$("#tooltip-container").show();
+			
+			var coordinates = d3.mouse(this);
+			
+			var map_width = $('.choropleth')[0].getBoundingClientRect().width;
+			
+			if (d3.event.pageX < map_width / 2) {
+			  d3.select("#tooltip-container")
+				.style("top", (d3.event.layerY + 15) + "px")
+				.style("left", (d3.event.layerX + 15) + "px");
+			} else {
+			  var tooltip_width = $("#tooltip-container").width();
+			  d3.select("#tooltip-container")
+				.style("top", (d3.event.layerY + 15) + "px")
+				.style("left", (d3.event.layerX - tooltip_width - 30) + "px");
+			}
+		})
+		.on("mouseout", function() {
+			$(this).attr("fill-opacity", "1.0");
+			$("#tooltip-container").hide();
+		});
 			   
-	//});
 }
 /** end of redraw */
 
