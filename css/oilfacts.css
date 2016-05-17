@@ -91,17 +91,17 @@ h1 {
 #map svg{
 }
 #charts {
-	height:300px;
+	height:325px;
 	width:100%;
 	vertical-align: middle;
 }
 #price {
-	height:300px;
+	height:325px;
 	position: absolute;
 	left: 0;
 	right: 0;
 	padding-top: 15px;
-	margin-left: 200px;
+	margin-left: 350px;
 }
 #production {
 	height:275px;
@@ -125,7 +125,7 @@ h1 {
 }
 #support-panel {
 	float:right;
-	margin-right : 250px;
+	margin-right : 110px;
     width: 200px;
     height: auto;
     padding: 10px;
@@ -153,7 +153,7 @@ h1 {
 		-webkit-appearance: none;  /*Removes default chrome and safari style*/
 		-moz-appearance: none; /* Removes Default Firefox style*/
         appearance:none;
-        background:url(...img/drop.jpg) no-repeat 90% center;
+        background:url(../img/drop.png) no-repeat 90% center;
         background-color:#7E6650; 
 		width: 200px; /*Width of select dropdown to give space for arrow image*/
 		text-indent: 0.01px; /* Removes default arrow from firefox*/
