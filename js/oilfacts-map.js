@@ -90,22 +90,65 @@ for (var i = 0; i < COLOR_COUNTS; i++) {
 	
 }
 
+var table = d3.select("#table-country"),
+		thead = table.append("thead"),
+		tbody = table.append("tbody");
+var rows;
+var cells;
+
 				 
 /** end of map var */
 
 // get data from csv
 d3.csv("./data/Total_Oil_Supply.csv", function(err, data) {
 	
-	// get data by year
-	data.forEach(function(d) {
-		valueHash[d[MAP_COUNTRY]] = +d[MAP_YEAR];
-	});
-	
 	// delete last element
 	data.splice(-1,1);
 	
+	// get data by year
+	data.forEach(function(d) {
+		valueHash[d[MAP_COUNTRY]] = +d[MAP_YEAR];	// value negara per tahun
+	});
+	
+	data.sort(function(a,b) {
+		return d3.descending(+valueHash[a[MAP_COUNTRY]], +valueHash[b[MAP_COUNTRY]]);
+	});
+	
 	// set variable data1
 	data1 = data;
+	
+	/** set table */
+	var columns = ["Country", MAP_YEAR];
+	
+	// set 20 data
+	var data_table = data.slice(0,20);
+	
+    // append the header row
+    thead.append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+            .text(function(column) { return column; });
+
+    // create a row for each object in the data
+    rows = tbody.selectAll("tr")
+        .data(data_table)
+        .enter()
+        .append("tr");
+
+    // create a cell in each row for each column
+    cells = rows.selectAll("td")
+        .data(function(row) {
+            return columns.map(function(column) {
+                return {column: column, value: valueFormat(row[column])};
+            });
+        })
+        .enter()
+        .append("td")
+        .attr("style", "font-family: Courier") // sets the font style
+            .html(function(d) { return d.value; });
+	/** end of table */
 	
 	// set colour
 	quantize.domain([d3.min(data, function(d){
@@ -186,6 +229,36 @@ function redraw(nTahun){
 	data1.forEach(function(d) {
 		valueHash[d[MAP_COUNTRY]] = +d[nTahun];
 	});
+	
+	data1.sort(function(a,b) {
+		return d3.descending(+valueHash[a[MAP_COUNTRY]], +valueHash[b[MAP_COUNTRY]]);
+	});
+	
+	/** table */
+	var columns = ["Country", nTahun];
+	
+	// set 20 data
+	var data_table = data1.slice(0,20);
+	
+    // append the header row
+    thead.selectAll("th")
+        .data(columns)
+		.text(function(column) { return column; });
+
+    // create a row for each object in the data
+    rows = tbody.selectAll("tr")
+        .data(data_table);
+
+    // create a cell in each row for each column
+    cells = rows.selectAll("td")
+        .data(function(row) {
+            return columns.map(function(column) {
+                return {column: column, value: valueFormat(row[column])};
+            });
+        })
+        .attr("style", "font-family: Courier") // sets the font style
+            .html(function(d) { return d.value; });
+	/** end of table */
 	
 	// set colour
 	quantize.domain([d3.min(data1, function(d){
@@ -316,3 +389,4 @@ function valueFormat(d) {
 	  return d;
 	}
 }
+
