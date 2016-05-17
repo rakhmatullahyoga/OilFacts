@@ -42,6 +42,7 @@ var svg = d3.select("div#price").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var lineSvg = svg.append("g"); 
+var linePrice = svg.append("g");
 
 var focus = svg.append("g") 
     .style("display", "none");
@@ -53,24 +54,53 @@ var parseDate = d3.time.format("%Y").parse,
 
 
 function loadGraph() {
+  var year = [];
+  var collection = [];
   // parsing data dari csv
   d3.csv("./data/DCOILWTICO.csv", function(error, data) {
     if (error) throw error;
 
     data.forEach(function(d) {
         d.date = parseDate(d.date);
+        year.push(d.date);
         d.value = +d.value;
     });
 
-    // domain skala grafik
+    d3.csv("./data/Total_Oil_Supply.csv", function(error,country){
+      if (error) throw error;
+
+      country.forEach(function(d){
+          var value = [d[1986], d[1987], d[1988], d[1989], d[1990], d[1991], d[1992], d[1993], d[1994], d[1995], d[1996], d[1997], d[1998], d[1999], d[2000], d[2001], d[2002], d[2003], d[2004], d[2005], d[2006], d[2007], d[2008], d[2009], d[2010], d[2011], d[2012], d[2013], d[2014]];
+          var data2 = {
+            Country: d.Country,
+            Data: []
+          };
+          var i=0;
+          value.forEach(function(x){
+            var sd = new Object();
+            sd.value = parseFloat(x);
+            sd.date = year[i];
+            data2.Data.push(sd);
+            i++;
+          });
+          collection.push(data2);
+      });
+      console.log(collection[1].Data);
+      data = collection[0].Data;
+
+      // domain skala grafik
     x.domain(d3.extent(data, function(d) { return d.date; })); // skala x-axis sesuai range data
-    y.domain([0, 110]); // skala y-axis dari 0 sampe 110
+    y.domain([0, 2000]); // skala y-axis dari 0 sampe 110
     y2.domain([0,14000]);
 
     // Add the priceline path.
     lineSvg.append("path")
         .attr("class", "line")
         .attr("d", priceline(data));
+
+    lineSvg.append("path")
+        .attr("class", "line")
+        .attr("d", priceline(collection[1].Data));
 
     // Add the X Axis
     svg.append("g")
@@ -198,6 +228,10 @@ function loadGraph() {
                                y(d.value) + ")")
                      .attr("x2", width + width);
     }
+    } );
+    console.log(data);
+
+    
   });
 
   // d3.csv("./data/Total_Oil_Supply.csv", function(error, data) {
@@ -207,7 +241,7 @@ function loadGraph() {
   //     return d.Country;
   //   });
   //   obj.forEach(function(k,v){
-  //     this[k] = [v.1986, v.1987, v.1988, v.1989, v.1990, v.1991, v.1992, v.1993, v.1994, v.1995, v.1996, v.1997, v.1998, v.1999, v.2000, v.2001, v.2002, v.2003, v.2004, v.2005, v.2006, v.2007, v.2008, v.2009, v.2010, v.2011, v.2012, v.2013, v.2014];
+  //     this[k] = [d.1986, d.1987, d.1988, d.1989, d.1990, d.1991, d.1992, d.1993, d.1994, d.1995, d.1996, d.1997, d.1998, d.1999, d.2000, d.2001, d.2002, d.2003, d.2004, d.2005, d.2006, d.2007, d.2008, d.2009, d.2010, d.2011, d.2012, d.2013, d.2014];
   //   });
 
   //   y2.domain([0, d3.max(obj, function(d) { return d[1]; })]);
@@ -228,4 +262,5 @@ function loadGraph() {
   //       .style("text-anchor", "end")
   //       .text("Production (barrel/day)");
   // });
+  
 }
