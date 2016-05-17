@@ -1,58 +1,58 @@
-// ukuran chart
-var margin = {top: 30, right: 20, bottom: 20, left: 50},
-    width = 580 - margin.left - margin.right,
-    height = 240 - margin.top - margin.bottom;
-
-// bikin skala x-axis dan y-axis
-var x = d3.time.scale()
-    .range([0, width]);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var y2 = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom").ticks(5);
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left").ticks(5);
-
-var y2Axis = d3.svg.axis()
-    .scale(y2)
-    .orient("right");
-
-// bikin fungsi konversi data ke koordinat garis
-var priceline = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.value); });
-
-var productionline = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y2(d.value); });
-
-// append svg ke komponen tertentu di html
-var svg = d3.select("div#price").append("svg")
-    .attr("width", width + margin.left + margin.right + 68)
-    .attr("height", height + margin.top + margin.bottom + 30)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-var lineSvg = svg.append("g");
-
-var focus = svg.append("g") 
-    .style("display", "none");
-
-// Parse the date / time
-var parseDate = d3.time.format("%Y").parse,
-    formatDate = d3.time.format("%Y"),
-    bisectDate = d3.bisector(function(d) { return d.date; }).left;
-
-
 function loadGraph() {
+  // ukuran chart
+  var margin = {top: 30, right: 20, bottom: 20, left: 50},
+      width = 580 - margin.left - margin.right,
+      height = 240 - margin.top - margin.bottom;
+
+  // bikin skala x-axis dan y-axis
+  var x = d3.time.scale()
+      .range([0, width]);
+
+  var y = d3.scale.linear()
+      .range([height, 0]);
+
+  var y2 = d3.scale.linear()
+      .range([height, 0]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom").ticks(5);
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left").ticks(5);
+
+  var y2Axis = d3.svg.axis()
+      .scale(y2)
+      .orient("right");
+
+  // bikin fungsi konversi data ke koordinat garis
+  var priceline = d3.svg.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.value); });
+
+  var productionline = d3.svg.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y2(d.value); });
+
+  // append svg ke komponen tertentu di html
+  var svg = d3.select("div#price").append("svg")
+      .attr("width", width + margin.left + margin.right + 68)
+      .attr("height", height + margin.top + margin.bottom + 30)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var lineSvg = svg.append("g");
+
+  var focus = svg.append("g") 
+      .style("display", "none");
+
+  // Parse the date / time
+  var parseDate = d3.time.format("%Y").parse,
+      formatDate = d3.time.format("%Y"),
+      bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+
   var year = [];
   var collection = [];
   // parsing data dari csv
