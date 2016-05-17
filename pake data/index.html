@@ -73,22 +73,14 @@ var COLOR_FIRST = config.color0, COLOR_LAST = config.color1;
 
 var rgb = hexToRgb(COLOR_FIRST);
 
-var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
+var COLOR_START = new Color(rgb.red, rgb.green, rgb.blue);
 
 rgb = hexToRgb(COLOR_LAST);
-var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
+var COLOR_END = new Color(rgb.red, rgb.green, rgb.blue);
 
 var startColors = COLOR_START.getColors(),
   endColors = COLOR_END.getColors();
   
-var colors = [];
-
-for (var i = 0; i < COLOR_COUNTS; i++) {
-	var r = Interpolate(startColors.r, endColors.r, COLOR_COUNTS, i);
-	var g = Interpolate(startColors.g, endColors.g, COLOR_COUNTS, i);
-	var b = Interpolate(startColors.b, endColors.b, COLOR_COUNTS, i);
-	colors.push(new Color(r, g, b));
-}
 /** end of color var */
 
 // assing data
@@ -100,8 +92,8 @@ var countries;
 var country = "";
 var data1 = [];
 var datax = [];
-var world1;
-var worldx;
+var world1 = [];
+var worldx = [];
 /** end of data global */
 
 /** map var */
@@ -145,8 +137,18 @@ g.append("path")
 var valueHash = {}
 
 var quantize = d3.scale.quantize()
-				 .domain([0, 1.0])
-				 .range(d3.range(COLOR_COUNTS).map(function(i){ return i }));
+      .domain([0, 1.0])
+      .range(d3.range(COLOR_COUNTS).map(function(i) { return i }));
+
+var colors = [];
+
+for (var i = 0; i < COLOR_COUNTS; i++) {
+	var red = Interpolate(startColors.red, endColors.red, COLOR_COUNTS, i);
+	var green = Interpolate(startColors.green, endColors.green, COLOR_COUNTS, i);
+	var blue = Interpolate(startColors.blue, endColors.blue, COLOR_COUNTS, i);
+	colors.push(new Color(red, green, blue));
+}
+
 				 
 /** end of map var */
 
@@ -172,7 +174,6 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
 		
 		//countries = topojson.feature(world, world.objects.countries).features;
 		//country = g.selectAll(".country").data(countries);
-		
 		g.selectAll(".country")
 		   .data(topojson.feature(world, world.objects.countries).features)
 	   .enter().append("path")
@@ -184,7 +185,7 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
 			   if (valueHash[d.properties.name]) {
 				   var c = quantize((valueHash[d.properties.name]));
 				   var color = colors[c].getColors();
-				   return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+				   return "rgb(" + color.red + "," + color.green + "," + color.blue + ")";
 			   } else {
 					return "#ccc";
 			   }
@@ -230,8 +231,8 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
          .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
          .attr("class", "boundary")
          .attr("d", path);
-			   
 	});
+	d3.select(self.frameElement).style("height", height + "px");
 });
 
 			
@@ -240,12 +241,12 @@ d3.csv("Total_Oil_Supply.csv", function(err, data) {
 function redraw(nTahun){
 	
 	datax = data1;
-	console.log(worldx);
 	
 	// get data by year
 	datax.forEach(function(d) {
 		valueHash[d[MAP_COUNTRY]] = +d[nTahun];
 	});
+	
 	
 	// set colour
 	quantize.domain([d3.min(datax, function(d){
@@ -254,18 +255,13 @@ function redraw(nTahun){
 		return (+d[nTahun]) })]);
 		
 	//d3.json("world-topo-min.json", function(error, worldx) {
-		/** MASIH ERROR VARIABEL worldx, keluarin di console bisa */
-		/** tapi di line 259 error, pls help */
 		g.selectAll(".country")
-		   .data(topojson.feature(worldx, worldx.objects.countries).features)
-		.enter().append("path")
-		   .attr("class", "country")
 		   .attr("d", path)
 		   .style("fill", function(d) {
 			   if (valueHash[d.properties.name]) {
 				   var c = quantize((valueHash[d.properties.name]));
 				   var color = colors[c].getColors();
-				   return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+				   return "rgb(" + color.red + "," + color.green + "," + color.blue + ")";
 			   } else {
 					return "#ccc";
 			   }
@@ -317,8 +313,6 @@ function redraw(nTahun){
 /** end of redraw */
 
 /** Slider */
-d3.select(self.frameElement).style("height", height + "px");
-	
 d3.select("#nRadius").on("input", function() {
 	slider(+this.value);
 });
@@ -344,19 +338,19 @@ function Interpolate(start, end, steps, count) {
 
 // color from RGB
 function Color(_r, _g, _b) {
-  var r, g, b;
+  var red, green, blue;
   var setColors = function(_r, _g, _b) {
-	  r = _r;
-	  g = _g;
-	  b = _b;
+	  red = _r;
+	  green = _g;
+	  blue = _b;
   };
 
   setColors(_r, _g, _b);
   this.getColors = function() {
 	  var colors = {
-		  r: r,
-		  g: g,
-		  b: b
+		  red: red,
+		  green: green,
+		  blue: blue
 	  };
 	  return colors;
   };
@@ -366,9 +360,9 @@ function Color(_r, _g, _b) {
 function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
-	  r: parseInt(result[1], 16),
-	  g: parseInt(result[2], 16),
-	  b: parseInt(result[3], 16)
+	  red: parseInt(result[1], 16),
+	  green: parseInt(result[2], 16),
+	  blue: parseInt(result[3], 16)
   } : null;
 }
 
