@@ -240,7 +240,7 @@ function redraw(nTahun){
 /** end of redraw */
 
 /** Slider */
-d3.select("#nRadius").on("input", function() {
+d3.select("#nRadius").call(d3.slider()).on("input", function() {
 	slider(+this.value);
 });
 slider(MAP_YEAR);
