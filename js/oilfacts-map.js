@@ -2,7 +2,7 @@
 var config = {"data0":"Country","label0":"label 0","label1":"label 1","color0":"#ffcc99","color1":"#cc6700","width":800,"height":400}
 
 // canvas
-var width = 1000,
+var width = 1070,
 	height = 640,
 	centered;
 
@@ -250,8 +250,8 @@ function redraw(nTahun){
 	// slider(+this.value);
 // });
 // slider(MAP_YEAR);
-
-d3.select("#slider").call(d3.slider().axis(true).min(1986).max(2014).step(1).value(MAP_YEAR).on("slide", function(evt, value) {
+d3.select('#slider4text').text(MAP_YEAR);
+d3.select("#slider").call(d3.slider().min(1986).max(2014).step(1).value(MAP_YEAR).on("slide", function(evt, value) {
   d3.select('#slider4text').text(value);
   redraw(value);
 }));
