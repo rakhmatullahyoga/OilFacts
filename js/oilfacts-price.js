@@ -47,11 +47,15 @@ function loadGraph() {
   var focus = svg.append("g") 
       .style("display", "none");
 
+  var priceTip = d3.select("div#price-stat").text("Price :");
+  var productionTip = d3.select("div#production-stat").text("Production :");
+
   // Parse the date / time
   var parseDate = d3.time.format("%Y").parse,
       formatDate = d3.time.format("%Y"),
       bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
+  var countrySel = d3.select("#countrySelector");
 
   var year = [];
   var collection = [];
@@ -67,7 +71,7 @@ function loadGraph() {
 
     d3.csv("./data/Total_Oil_Supply.csv", function(error,country) {
       if (error) throw error;
-
+      var idxCountry=0;
       country.forEach(function(d){
           var value = [d[1986], d[1987], d[1988], d[1989], d[1990], d[1991], d[1992], d[1993], d[1994], d[1995], d[1996], d[1997], d[1998], d[1999], d[2000], d[2001], d[2002], d[2003], d[2004], d[2005], d[2006], d[2007], d[2008], d[2009], d[2010], d[2011], d[2012], d[2013], d[2014]];
           var data2 = {
@@ -82,24 +86,22 @@ function loadGraph() {
             data2.Data.push(sd);
             i++;
           });
+          var option=countrySel.append("option").text(data2.Country).attr("value",idxCountry);
+          if(data2.Country=="World (total)")
+            option.attr("selected",true);
           collection.push(data2);
+          idxCountry = idxCountry + 1;
       });
-      // console.log(collection[1].Data);
-
+      
       // domain skala grafik
       x.domain(d3.extent(data, function(d) { return d.date; })); // skala x-axis sesuai range data
       y.domain([0, 110]); // skala y-axis dari 0 sampe 110
-      y2.domain([0,d3.max(collection[0].Data, function(d) { return d.value })]);
+      y2.domain([0,d3.max(collection[countrySel.node().value].Data, function(d) { return d.value })]);
 
       // Add the priceline path.
       lineSvg.append("path")
           .attr("class", "line")
           .attr("d", priceline(data));
-
-      lineSvg.append("path")
-          .attr("class", "line")
-          .attr("id", "green")
-          .attr("d", productionline(collection[0].Data));
 
       // Add the X Axis
       svg.append("g")
@@ -118,35 +120,23 @@ function loadGraph() {
           .style("text-anchor", "end")
           .text("Price ($/barrel)");
 
+      var prodLine = lineSvg.append("path")
+                      .attr("class", "line")
+                      .attr("id", "green")
+                      .attr("d", productionline(collection[countrySel.node().value].Data));
+
       // Add the Y2 Axis
-      svg.append("g")
-          .attr("class", "y axis")
-          .attr("transform", "translate(" + width + ",0)")
-          .call(y2Axis)
-        .append("text")
-          .attr("transform", "translate(80,-30)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Production (barrel/day)");
+      var prodAxis = svg.append("g")
+                      .attr("class", "y axis")
+                      .attr("transform", "translate(" + width + ",0)")
+                      .call(y2Axis);
 
-      // append the x line
-      focus.append("line")
-          .attr("class", "x")
-          .style("stroke", "blue")
-          .style("stroke-dasharray", "3,3")
-          .style("opacity", 0.5)
-          .attr("y1", 0)
-          .attr("y2", height);
-
-      // append the y line
-      focus.append("line")
-          .attr("class", "y")
-          .style("stroke", "blue")
-          .style("stroke-dasharray", "3,3")
-          .style("opacity", 0.5)
-          .attr("x1", width)
-          .attr("x2", width);
+      prodAxis.append("text")
+              .attr("transform", "translate(80,-30)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Production (barrel/day)");
 
       // append the circle at the intersection
       focus.append("circle")
@@ -155,32 +145,6 @@ function loadGraph() {
           .style("stroke", "blue")
           .attr("r", 4);
 
-      // place the value at the intersection
-      focus.append("text")
-          .attr("class", "y1")
-          .style("stroke", "white")
-          .style("stroke-width", "3.5px")
-          .style("opacity", 0.8)
-          .attr("dx", 8)
-          .attr("dy", "-.3em");
-      focus.append("text")
-          .attr("class", "y2")
-          .attr("dx", 8)
-          .attr("dy", "-.3em");
-
-      // place the date at the intersection
-      focus.append("text")
-          .attr("class", "y3")
-          .style("stroke", "white")
-          .style("stroke-width", "3.5px")
-          .style("opacity", 0.8)
-          .attr("dx", 8)
-          .attr("dy", "1em");
-      focus.append("text")
-          .attr("class", "y4")
-          .attr("dx", 8)
-          .attr("dy", "1em");
-      
       // append the rectangle to capture mouse
       svg.append("rect")
           .attr("width", width)
@@ -193,39 +157,22 @@ function loadGraph() {
 
       function mousemove() {
         var x0 = x.invert(d3.mouse(this)[0]),
+            j = bisectDate(collection[countrySel.node().value].Data, x0, 1),
+            p0 = collection[countrySel.node().value].Data[j - 1],
+            p1 = collection[countrySel.node().value].Data[j],
+            p = x0 - p0.date > p1.date - x0 ? p1 : p0,
             i = bisectDate(data, x0, 1),
             d0 = data[i - 1],
             d1 = data[i],
             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
+        priceTip.text("Price : "+d.value);
+        productionTip.text("Production : "+p.value);
+
         focus.select("circle.y")
             .attr("transform",
                   "translate(" + x(d.date) + "," +
                                  y(d.value) + ")");
-
-        focus.select("text.y1")
-            .attr("transform",
-                  "translate(" + x(d.date) + "," +
-                                 y(d.value) + ")")
-            .text(d.value);
-
-        focus.select("text.y2")
-            .attr("transform",
-                  "translate(" + x(d.date) + "," +
-                                 y(d.value) + ")")
-            .text(d.value);
-
-        focus.select("text.y3")
-            .attr("transform",
-                  "translate(" + x(d.date) + "," +
-                                 y(d.value) + ")")
-            .text(formatDate(d.date));
-
-        focus.select("text.y4")
-            .attr("transform",
-                  "translate(" + x(d.date) + "," +
-                                 y(d.value) + ")")
-            .text(formatDate(d.date));
 
         focus.select(".x")
             .attr("transform",
@@ -239,7 +186,34 @@ function loadGraph() {
                                  y(d.value) + ")")
                        .attr("x2", width + width);
       }
+
+      function draw() {
+        prodAxis.remove();
+        prodLine.remove();
+        y2.domain([0,d3.max(collection[countrySel.node().value].Data, function(d) { return d.value })]);
+        // Redraw Y2 axis
+        prodLine = lineSvg.append("path")
+            .attr("class", "line")
+            .attr("id", "green")
+            .attr("d", productionline(collection[countrySel.node().value].Data));
+
+        // Redraw the Y2 Axis
+        prodAxis = svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + width + ",0)")
+            .call(y2Axis);
+        prodAxis.append("text")
+            .attr("transform", "translate(80,-30)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Production (barrel/day)");
+      }
+      draw();
+      countrySel.on("change",draw);
     });
   });
+
+  
   
 }
