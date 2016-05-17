@@ -41,8 +41,7 @@ var svg = d3.select("div#price").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var lineSvg = svg.append("g"); 
-var linePrice = svg.append("g");
+var lineSvg = svg.append("g");
 
 var focus = svg.append("g") 
     .style("display", "none");
@@ -99,6 +98,7 @@ function loadGraph() {
 
       lineSvg.append("path")
           .attr("class", "line")
+          .attr("id", "green")
           .attr("d", productionline(collection[0].Data));
 
       // Add the X Axis

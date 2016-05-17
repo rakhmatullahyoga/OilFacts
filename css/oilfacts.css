@@ -67,6 +67,11 @@ h1 {
   stroke: #0B67F3;
   stroke-width: 1.5px;
 }
+.line#green {
+  fill: none;
+  stroke: #3aa658;
+  stroke-width: 1.5px;
+}
 .svg-container {
     display: inline-block;
     position: relative;
