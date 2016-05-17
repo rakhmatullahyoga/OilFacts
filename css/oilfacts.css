@@ -55,8 +55,8 @@ body {
 }
 
 .y.axis {
-  text-decoration-color: #EFEFEF;
-  stroke: #EFEFEF;
+	text-decoration-color: #EFEFEF;
+	stroke: #EFEFEF;
 }
 
 .line {

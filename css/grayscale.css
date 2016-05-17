@@ -60,7 +60,7 @@ p {
 }
 
 a {
-    color: #42dca3;
+    color: #ffffff;
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -235,7 +235,7 @@ a:focus {
 
 .intro .intro-body {
     display: table-cell;
-    padding-top: 120px;
+    padding-top: 100px;
 
 }
 
@@ -428,7 +428,7 @@ ul.banner-social-buttons {
 }
 
 footer {
-    padding: 50px 0;
+    padding: 10px 0;
 }
 
 footer p {
