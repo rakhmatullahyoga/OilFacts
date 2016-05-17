@@ -95,13 +95,17 @@ for (var i = 0; i < COLOR_COUNTS; i++) {
 
 // get data from csv
 d3.csv("./data/Total_Oil_Supply.csv", function(err, data) {
-	// set variable data1
-	data1 = data;
 	
 	// get data by year
 	data.forEach(function(d) {
 		valueHash[d[MAP_COUNTRY]] = +d[MAP_YEAR];
 	});
+	
+	// delete last element
+	data.splice(-1,1);
+	
+	// set variable data1
+	data1 = data;
 	
 	// set colour
 	quantize.domain([d3.min(data, function(d){
