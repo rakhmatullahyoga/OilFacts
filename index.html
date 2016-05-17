@@ -18,6 +18,7 @@
     <!-- Custom CSS -->
     <link href="css/oilfacts.css" rel="stylesheet">
     <link href="css/grayscale.css" rel="stylesheet">
+    <link href="css/d3.slider.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -134,12 +135,11 @@
                 </div>
             </div>
             <div style="width:500px">
-				<label for="nRadius" 
-					style="display: inline-block; width: 240px; text-align: right">
-					Year = <span id="nRadius-value">…</span>
-				</label>
-				<input type="range" min="1986" max="2014" id="nRadius">
+				Year : <span id="slider4text">0</span>
+				<div style="width:1000px" id="slider"></div>
+				<br />
             </div>
+			
 			
         </div>
     </section>
@@ -156,6 +156,7 @@
     <!-- Custom Theme JavaScript -->
     <script type="text/javascript" src="js/grayscale.js"></script>
     <script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/d3.slider.js"></script>
     <script type="text/javascript" src="js/topojson.min.js"></script>
     <script type="text/javascript" src="js/oilfacts-price.js"></script>
     <script type="text/javascript" src="js/oilfacts-map.js"></script>

@@ -242,19 +242,24 @@ function redraw(nTahun){
 /** end of redraw */
 
 /** Slider */
-d3.select("#nRadius").on("input", function() {
-	slider(+this.value);
-});
-slider(MAP_YEAR);
+// d3.select("#nRadius").on("input", function() {
+	// slider(+this.value);
+// });
+// slider(MAP_YEAR);
 
-// slider
-function slider(slideTahun){
-	// adjust the text on the range slider
-	d3.select("#nRadius-value").text(slideTahun);
-	d3.select("#nRadius").property("value", slideTahun);
+d3.select("#slider").call(d3.slider().axis(true).min(1986).max(2014).step(1).value(MAP_YEAR).on("slide", function(evt, value) {
+  d3.select('#slider4text').text(value);
+  redraw(value);
+}));
+
+// // slider
+// function slider(slideTahun){
+	// // adjust the text on the range slider
+	// d3.select("#nRadius-value").text(slideTahun);
+	// d3.select("#nRadius").property("value", slideTahun);
 	
-	redraw(slideTahun);
-}
+	// redraw(slideTahun);
+// }
 /** end of slider */
 
 // interpolate
