@@ -22,8 +22,7 @@ body {
 	font-weight: bold;
 }
 .tooltip_value {
-	margin-left: 20px;
-	float: right;
+	
 }
 .country .active {
 	fill: red;

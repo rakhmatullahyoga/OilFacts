@@ -121,7 +121,7 @@ d3.csv("./data/Total_Oil_Supply.csv", function(err, data) {
 	var columns = ["Country", MAP_YEAR];
 	
 	// set 20 data
-	var data_table = data.slice(0,20);
+	var data_table = data.slice(0,10);
 	
     // append the header row
     thead.append("tr")
@@ -182,8 +182,9 @@ d3.csv("./data/Total_Oil_Supply.csv", function(err, data) {
 				html += "<span class=\"tooltip_key\">";
 				html += d.properties.name;
 				html += "</span>";
-				html += "<span class=\"tooltip_value\">";
-				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "N/A");
+				html += "<br><span class=\"tooltip_value\">";
+				html += "produce : <b>";
+				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name])+ "</b> kilobarrel/day" : "N/A");
 				html += "";
 				html += "</span>";
 				html += "</div>";
@@ -238,7 +239,7 @@ function redraw(nTahun){
 	var columns = ["Country", nTahun];
 	
 	// set 20 data
-	var data_table = data1.slice(0,20);
+	var data_table = data1.slice(0,10);
 	
     // append the header row
     thead.selectAll("th")
@@ -285,8 +286,9 @@ function redraw(nTahun){
 			html += "<span class=\"tooltip_key\">";
 			html += d.properties.name;
 			html += "</span>";
-			html += "<span class=\"tooltip_value\">";
-			html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name]) : "N/A");
+			html += "<br><span class=\"tooltip_value\">";
+			html += "produce : <b>";
+			html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name])+ "</b> kilobarrel/day" : "N/A");
 			html += "";
 			html += "</span>";
 			html += "</div>";
