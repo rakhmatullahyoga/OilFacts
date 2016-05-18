@@ -136,7 +136,7 @@ function loadGraph() {
               .attr("y", 6)
               .attr("dy", ".71em")
               .style("text-anchor", "end")
-              .text("Production (barrel/day)");
+              .text("Production (Kilobarrel/day)");
 
       // append the circle at the intersection
       focus.append("circle")
@@ -207,7 +207,7 @@ function loadGraph() {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Production (barrel/day)");
+            .text("Production (Kilobarrel/day)");
       }
       draw();
       countrySel.on("change",draw);
