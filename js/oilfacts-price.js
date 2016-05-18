@@ -49,6 +49,7 @@ function loadGraph() {
 
   var priceTip = d3.select("div#price-stat").text("Price :");
   var productionTip = d3.select("div#production-stat").text("Production :");
+  var yearTip = d3.select("div#year-stat").text("Year :");
 
   // Parse the date / time
   var parseDate = d3.time.format("%Y").parse,
@@ -168,6 +169,7 @@ function loadGraph() {
 
         priceTip.text("Price : "+d.value);
         productionTip.text("Production : "+p.value);
+        yearTip.text("Year : "+formatDate(d.date));
 
         focus.select("circle.y")
             .attr("transform",
