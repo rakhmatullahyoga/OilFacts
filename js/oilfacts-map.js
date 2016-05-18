@@ -183,8 +183,8 @@ d3.csv("./data/Total_Oil_Supply.csv", function(err, data) {
 				html += d.properties.name;
 				html += "</span>";
 				html += "<br><span class=\"tooltip_value\">";
-				html += "produce : <b>";
-				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name])+ "</b> kilobarrel/day" : "N/A");
+				html += "Production : <b>";
+				html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name])+ "</b> Kilobarrel/day" : "N/A");
 				html += "";
 				html += "</span>";
 				html += "</div>";
@@ -287,7 +287,7 @@ function redraw(nTahun){
 			html += d.properties.name;
 			html += "</span>";
 			html += "<br><span class=\"tooltip_value\">";
-			html += "produce : <b>";
+			html += "Production : <b>";
 			html += (valueHash[d.properties.name] ? valueFormat(valueHash[d.properties.name])+ "</b> kilobarrel/day" : "N/A");
 			html += "";
 			html += "</span>";
