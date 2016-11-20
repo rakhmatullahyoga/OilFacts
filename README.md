@@ -1,2 +1,2 @@
 # OilFacts
-Interactive Data Visualization Project about Oil Price and Production
+Interactive Data Visualization Project about World's Crude Oil Price and Production across countries.
